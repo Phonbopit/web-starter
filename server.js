@@ -4,30 +4,28 @@ const chalk = require('chalk')
 const { SERVER } = require('./src/config')
 
 const server = Hapi.Server({
-	host: SERVER.HOST,
-	port: SERVER.PORT
+  host: SERVER.HOST,
+  port: SERVER.PORT
 })
 
 const init = async () => {
+  try {
+    await server.start()
 
-	try {
-		await server.start()
+    server.route({
+      method: 'GET',
+      path: '/',
+      handler: (req, h) => ({ message: "It's work!" })
+    })
 
-	server.route({
-		method: 'GET',
-		path: '/',
-		handler: (req, h) => ({ message: "It's work!" })
-	})
-
-	console.log(chalk.green(`Server running at port ${server.info.uri}`))
-} catch (error) {
-	console.log(error)
-}
-	
+    console.log(chalk.green(`Server running at port ${server.info.uri}`))
+  } catch (error) {
+    console.log(chalk.red(error))
+  }
 }
 
 process.on('unhandleRejection', err => {
-  console.log(c.red('unhandleRejection error : ', err))
+  console.log(chalk.red('unhandleRejection error : ', err))
   process.exit(1)
 })
 
