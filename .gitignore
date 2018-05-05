@@ -57,3 +57,6 @@ typings/
 # dotenv environment variables file
 .env
 
+# don't want lock file just specific verion in package.json is enough
+yarn.lock
+package-lock.json
